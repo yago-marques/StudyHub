@@ -28,6 +28,7 @@ interface VerifyUserUidProps {
 
 interface ResetPasswordProps {
   email: string
+  setLoading: (state: boolean) => void
 }
 
 const app = initializeApp(firebaseConfig);
@@ -78,12 +79,14 @@ export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps)
   })
 }
 
-export function ResetPassword({email}: ResetPasswordProps) {
+export function ResetPassword({email, setLoading}: ResetPasswordProps) {
   sendPasswordResetEmail(auth, email)
   .then(() => {
     console.log("ok")
+    setLoading(false)
   })
   .catch((error) => {
     console.log(error)
+    setLoading(false)
   });
 }

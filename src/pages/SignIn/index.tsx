@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Container } from "./style"
 import { useNavigate } from "react-router-dom"
 import { UserSignIn } from "../../firebase/userAuth"
+import { SendEmailModal } from "../../components/SendEmailModal"
 
 export function SignIn() {
   const [email, setEmail] = useState("")
@@ -15,6 +16,12 @@ export function SignIn() {
 
   return (
     <Container>
+      <SendEmailModal
+        showSendEmailModal={forgotPass}
+        onRequestClose={() => {
+          setForgotPass(false)
+        }}
+      />
       <section>
         <form>
           <div>
