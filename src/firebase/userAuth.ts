@@ -71,7 +71,10 @@ export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps)
   querySnapshot.forEach(doc => {
     let data = doc.data()
     let count = 0
-    if (data.uid === localStorage.getItem("userUid")) {
+    // if (data.uid === localStorage.getItem("userUid")) {
+    //   count++
+    // }
+    if(localStorage.getItem("userUid")) {
       count++
     }
     count === 0 && setLogged(false)
