@@ -8,7 +8,7 @@ export function AppRoutes() {
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<SignIn />} />
 
-      <Route path="/*" element={<Navigate to="/home" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
     </Routes>
   )
 }
