@@ -10,7 +10,7 @@ export function Home() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    //verifyUserUid({setLogged, setLoading})
+    verifyUserUid({setLogged, setLoading})
   }, [])
 
   useEffect(() => {
@@ -19,18 +19,18 @@ export function Home() {
 
   return(
     <Container>
-      {/* { loading ? (
+      { loading ? (
         <SprintScreen />
       ) : (
-        <> */}
+        <>
           <h1>Home page</h1>
           <button onClick={() => {
             localStorage.clear()
           }}>
             clear
           </button>
-        {/* </>
-      ) } */}
+        </>
+      ) }
       
     </Container>
   )
