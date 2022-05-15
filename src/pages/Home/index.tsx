@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+//import { toast } from "react-toastify"
 import { Container } from "./style"
 import { verifyUserUid } from "../../firebase/userAuth"
 import { SprintScreen } from "../../components/SprintScreen" 

@@ -12,6 +12,8 @@ import {
   sendPasswordResetEmail
 } from "firebase/auth";
 
+import { toast } from "react-toastify"
+
 import { firebaseConfig } from "./credentials"
 
 interface SignInProps{
@@ -67,14 +69,20 @@ export function UserRegister() {
 }
 
 export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps) {
-    let count = 0
-    
-    if(localStorage.getItem("userUid") && localStorage.getItem("userRole")) {
-      count++
-    }
-
-    count === 0 && setLogged(false)
+  if (localStorage.getItem("userRole") && localStorage.getItem("userUid")) {
+    toast.warning("1")
+    const querySnapshot = await getDocs(collection(db, "users"));
+    toast.warning("3")
+    querySnapshot.forEach(user => {
+      toast.warning("4")
+      let data = user.data()
+      data.uid === localStorage.getItem("userUid") && setLoading(false)
+    })
+  } else {
+    toast.warning("2")
+    setLogged(false)
     setLoading(false)
+  }
 }
 
 export function ResetPassword({email, setLoading}: ResetPasswordProps) {
