@@ -72,12 +72,12 @@ export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps)
     let data = doc.data()
     let count = 0
     
-    if(localStorage.getItem("userUid")) {
-      if (data.uid === localStorage.getItem("userUid")) {
+    if(localStorage.getItem("userUid") && localStorage.getItem("userRole")) {
+      if (data.uid === localStorage.getItem("userUid") && data.role === localStorage.getItem("userRole")) {
         count++
       }
     }
-    
+
     count === 0 && setLogged(false)
     setLoading(false)
   })
