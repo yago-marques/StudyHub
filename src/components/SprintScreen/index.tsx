@@ -7,17 +7,14 @@ export function SprintScreen() {
   return (
     <Container>
       <div className="loader"></div>
-      {setTimeout(() => {
-        <button
-          onClick={() => {
-            localStorage.clear()
-            navigate("/home")
-          }}
-        >
-          Cancelar
-        </button>
-      }, 3000)}
-      
+      <button
+        onClick={() => {
+          localStorage.clear()
+          navigate("/login")
+        }}
+      >
+        Cancelar
+      </button>
     </Container>
   )
 }
