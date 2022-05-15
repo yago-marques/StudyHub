@@ -3,6 +3,7 @@ import { Container } from "./style"
 import { useNavigate } from "react-router-dom"
 import { UserSignIn } from "../../firebase/userAuth"
 import { SendEmailModal } from "../../components/SendEmailModal"
+import studentImg from "../../assets/studentLogin.png"
 
 export function SignIn() {
   const [email, setEmail] = useState("")
@@ -22,8 +23,31 @@ export function SignIn() {
           setForgotPass(false)
         }}
       />
-      <section>
+      <section className="toggleAuth">
+        <h1>
+          StudyHub
+        </h1>
+        <div>
+          <p>
+            Não tem conta?
+          </p>
+          <button 
+            type="button"
+            className="register"
+            onClick={() => {
+              navigate("/cadastro")
+            }}
+          >
+            Cadastre-se
+          </button>
+        </div>
+        
+
+        <img src={studentImg} alt="" />
+      </section>
+      <section className="form">
         <form>
+          <h2>Login</h2>
           <div>
             <span>Email</span>
             <input 

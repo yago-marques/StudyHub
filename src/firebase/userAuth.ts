@@ -2,7 +2,9 @@ import { initializeApp } from "firebase/app";
 import { 
   getFirestore, 
   collection, 
-  getDocs
+  getDocs,
+  setDoc,
+  doc
 } from "firebase/firestore";
 
 import { 
@@ -23,6 +25,10 @@ interface SignInProps{
   setLogged: (state: boolean) => void
 }
 
+interface LogoutProps {
+  navigate: (route: string) => void
+}
+
 interface VerifyUserUidProps {
   setLogged: (state: boolean) => void
   setLoading: (state: boolean) => void
@@ -31,6 +37,15 @@ interface VerifyUserUidProps {
 interface ResetPasswordProps {
   email: string
   setLoading: (state: boolean) => void
+}
+
+interface UserRegisterProps {
+  name: string
+  email: string
+  password: string
+  role: string
+  setLoading: (state: boolean) => void
+  navigate: (route: string) => void
 }
 
 const app = initializeApp(firebaseConfig);
@@ -47,39 +62,63 @@ export function UserSignIn({email, password, setLoading, setLogged}: SignInProps
         if (data.uid === uid) {
           localStorage.setItem("userRole", data.role)
           localStorage.setItem("userUid", data.uid)
+          toast.success("Usuário logado")
           setLogged(true)
         }
       });
       setLoading(false)
     })
     .catch(error => {
+      toast.error("Email ou senha inválida")
       console.log(error)
       setLoading(false)
     });
 }
 
-export function UserRegister() {
-  createUserWithEmailAndPassword(auth, "yagovictormarques@gmail.com", "yago123")
-  .then(user => {
-    console.log(user)
+export function UserLogout({navigate}: LogoutProps) {
+  localStorage.clear()
+  navigate("/login")
+}
+
+export function NewUserRegister({
+  name, 
+  email, 
+  password, 
+  role, 
+  setLoading,
+  navigate
+}: UserRegisterProps) {
+  createUserWithEmailAndPassword(auth, email, password)
+  .then(async user => {
+    let userUid = user.user.uid
+    await setDoc(doc(db, "users", email), {
+      name: name,
+      email: email,
+      role: role,
+      uid: userUid
+    });
+    setLoading(false)
+    toast.success("Conta cadastrada")
+    navigate("/login")
   })
-  .catch((error) => {
-    console.log(error)
+  .catch(error => {
+    if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+      toast.error("Esse email já está em uso")
+    } else {
+      toast.error("Falha no cadastro")
+    }
+    setLoading(false)
   });
 }
 
 export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps) {
   if (localStorage.getItem("userRole") && localStorage.getItem("userUid")) {
-    toast.warning("1")
     const querySnapshot = await getDocs(collection(db, "users"));
-    toast.warning("3")
     querySnapshot.forEach(user => {
-      toast.warning("4")
       let data = user.data()
       data.uid === localStorage.getItem("userUid") && setLoading(false)
     })
   } else {
-    toast.warning("2")
     setLogged(false)
     setLoading(false)
   }
@@ -88,11 +127,11 @@ export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps)
 export function ResetPassword({email, setLoading}: ResetPasswordProps) {
   sendPasswordResetEmail(auth, email)
   .then(() => {
-    console.log("ok")
+    toast.success("Email enviado com sucesso")
     setLoading(false)
   })
   .catch((error) => {
-    console.log(error)
+    toast.error("Email inválido")
     setLoading(false)
   });
 }

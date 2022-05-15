@@ -27,19 +27,24 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     background: var(--bg-color);
+    
   }
-  input { 
+  input, button, textarea{ 
     outline: none;
+    border: none;
+    color: var(--shape);
+    background: white;
   }
   h1, h2, h3, h4, h5, h6, strong{
     font-weight: 600;
+    color: var(--text-title);
   }
   button, select{
     cursor: pointer;
   } 
 
   .react-modal-overlay{
-    background: rgba(0,0,0,.3);
+    background: rgba(0,0,0,.7);
     position: fixed;
     top: 0;
     bottom: 0;
@@ -58,6 +63,24 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 0.25rem;
     overflow: auto;
   }
+
+  .loader {
+    height: 1rem;
+    width: 1rem;
+    border: 2px solid transparent;
+    border-bottom-color: var(--bg-color);
+    border-radius: 50%;
+    animation: rotateLoaderLogin 0.5s linear infinite;
+  }
+  @keyframes rotateLoaderLogin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
   [disabled]{
     cursor: not-allowed;
   }

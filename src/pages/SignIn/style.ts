@@ -5,15 +5,58 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  section {
+  .toggleAuth {
+    position: relative;
+    height: 27rem;
+    width: 26rem;
+    background-color: var(--yellow);
+    padding: 3rem;
+    padding-top: 2rem;
+    h1 {
+      font-size: 2.5rem;
+      color: var(--shape);
+      margin-bottom: 0.5rem;
+    }
+    div {
+      display: flex;
+      p {
+        color: var(--shape);
+        font-size: 1rem;
+      }
+      .register {
+        margin-left: 1rem;
+        border: none;
+        font-size: 1rem;
+        background: transparent;
+        color: blue;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    
+    img {
+      width: 27rem;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+    }
+  }
+  .form {
     width: max-content;
     background: var(--shape);
     form {
       padding: 3rem;
-      height: 23rem;
+      height: 27rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      h2 {
+        font-size: 1.5rem;
+        color: var(--text-title);
+        text-align: center;
+        font-weight: 500;
+      }
       div {
         display: flex;
         flex-direction: column;
@@ -67,6 +110,7 @@ export const Container = styled.section`
           color: var(--bg-color);
           border-radius: 0.3rem;
           transition-duration: 0.3s;
+          font-weight: 500;
 
           &:hover {
             filter: brightness(0.8);
