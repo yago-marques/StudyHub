@@ -67,20 +67,14 @@ export function UserRegister() {
 }
 
 export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps) {
-  const querySnapshot = await getDocs(collection(db, "users"));
-  querySnapshot.forEach(doc => {
-    let data = doc.data()
     let count = 0
     
     if(localStorage.getItem("userUid") && localStorage.getItem("userRole")) {
-      if (data.uid === localStorage.getItem("userUid") && data.role === localStorage.getItem("userRole")) {
-        count++
-      }
+      count++
     }
 
     count === 0 && setLogged(false)
     setLoading(false)
-  })
 }
 
 export function ResetPassword({email, setLoading}: ResetPasswordProps) {
