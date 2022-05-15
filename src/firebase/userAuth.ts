@@ -69,7 +69,7 @@ export function UserRegister() {
 export async function verifyUserUid({setLogged, setLoading}: VerifyUserUidProps) {
   const querySnapshot = await getDocs(collection(db, "users"));
   querySnapshot.forEach(doc => {
-    let data = doc.data()
+    //let data = doc.data()
     let count = 0
     // if (data.uid === localStorage.getItem("userUid")) {
     //   count++
