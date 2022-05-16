@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Container } from "./style"
 import { useNavigate } from "react-router-dom"
-import { UserSignIn } from "../../firebase/userAuth"
+import { Auth } from "../../firebase/Auth"
 import { SendEmailModal } from "../../components/SendEmailModal"
 import studentImg from "../../assets/studentLogin.png"
 
@@ -14,6 +14,8 @@ export function SignIn() {
 
   const navigate = useNavigate()
   logged && navigate("/home")
+
+  const auth = new Auth()
 
   return (
     <Container>
@@ -72,7 +74,7 @@ export function SignIn() {
               onClick={(e) => {
                 e.preventDefault()
                 setLoading(true)
-                UserSignIn({email, password, setLoading, setLogged})
+                auth.userSignIn({email, password, setLoading, setLogged})
               }}
             >
               {!loading ? "Entrar" : <div className="loader"/>}
