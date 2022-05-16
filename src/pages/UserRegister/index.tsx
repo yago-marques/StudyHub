@@ -2,7 +2,7 @@ import { Container } from "./style"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { toast } from "react-toastify"
-import { NewUserRegister } from "../../firebase/userAuth"
+import { Auth } from "../../firebase/Auth"
 
 export function UserRegister() {
   const [name, setName] = useState("")
@@ -12,6 +12,7 @@ export function UserRegister() {
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
+  const auth = new Auth()
 
   const hasUpper = (str: string) => /[A-Z]/.test(str);
   const hasNumber = (str: string) => /[0-9]/.test(str);
@@ -27,7 +28,7 @@ export function UserRegister() {
       && hasNumber(password)
       && password.length >= 8
     ) {
-      NewUserRegister({
+      auth.newUserRegister({
         name, 
         email, 
         password, 

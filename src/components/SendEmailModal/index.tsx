@@ -2,7 +2,7 @@ import { useState } from "react"
 import Modal from "react-modal"
 import { GrClose as CloseIcon } from "react-icons/gr"
 import { Container } from "./style"
-import { ResetPassword } from "../../firebase/userAuth"
+import { Auth } from "../../firebase/Auth"
 
 interface SendEmailModalProps {
   showSendEmailModal: boolean
@@ -15,6 +15,7 @@ export function SendEmailModal({
 
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
+  const auth = new Auth()
 
   return (
     <Modal
@@ -44,7 +45,7 @@ export function SendEmailModal({
             onClick={(e) => {
               e.preventDefault()
               setLoading(true)
-              ResetPassword({email, setLoading})
+              auth.forgotPassword({email, setLoading})
             }}
           >
             {!loading ? "Enviar" : <div className="loader"></div>}
