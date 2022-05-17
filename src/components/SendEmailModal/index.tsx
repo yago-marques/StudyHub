@@ -15,7 +15,7 @@ export function SendEmailModal({
 
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
-  const auth = new Auth()
+  const auth = new Auth({email})
 
   return (
     <Modal
@@ -45,7 +45,7 @@ export function SendEmailModal({
             onClick={(e) => {
               e.preventDefault()
               setLoading(true)
-              auth.forgotPassword({email, setLoading})
+              auth.forgotPassword({setLoading})
             }}
           >
             {!loading ? "Enviar" : <div className="loader"></div>}

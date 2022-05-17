@@ -12,7 +12,7 @@ export function UserRegister() {
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
-  const auth = new Auth()
+  const auth = new Auth({email, password})
 
   const hasUpper = (str: string) => /[A-Z]/.test(str);
   const hasNumber = (str: string) => /[0-9]/.test(str);
@@ -29,9 +29,7 @@ export function UserRegister() {
       && password.length >= 8
     ) {
       auth.newUserRegister({
-        name, 
-        email, 
-        password, 
+        name,  
         role: "student", 
         setLoading,
         navigate

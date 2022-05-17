@@ -15,7 +15,7 @@ export function SignIn() {
   const navigate = useNavigate()
   logged && navigate("/home")
 
-  const auth = new Auth()
+  const auth = new Auth({email, password})
 
   return (
     <Container>
@@ -74,7 +74,7 @@ export function SignIn() {
               onClick={(e) => {
                 e.preventDefault()
                 setLoading(true)
-                auth.userSignIn({email, password, setLoading, setLogged})
+                auth.userSignIn({setLoading, setLogged})
               }}
             >
               {!loading ? "Entrar" : <div className="loader"/>}
