@@ -10,7 +10,7 @@ export function Home() {
   const navigate = useNavigate()
   
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const auth = new Auth()
+  const auth = new Auth({})
 
   useEffect(() => {
     auth.verifyUserUid({setLogged, setLoading})

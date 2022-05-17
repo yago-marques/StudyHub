@@ -21,8 +21,6 @@ import { firebaseConfig } from "./credentials";
 
 // interfaces
 interface SignInProps {
-  email: string;
-  password: string;
   setLoading: (state: boolean) => void;
   setLogged: (state: boolean) => void;
 }
@@ -37,17 +35,19 @@ interface VerifyUserUidProps {
 }
 
 interface ForgotPasswordProps {
-  email: string;
   setLoading: (state: boolean) => void;
 }
 
 interface UserRegisterProps {
   name: string;
-  email: string;
-  password: string;
   role: string;
   setLoading: (state: boolean) => void;
   navigate: (route: string) => void;
+}
+
+interface InitProps {
+  email?: string
+  password?: string
 }
 
 // class
@@ -55,9 +55,20 @@ export class Auth {
   private app = initializeApp(firebaseConfig);
   private auth = getAuth(this.app);
   private db = getFirestore(this.app);
+  private email!: string
+  private password!: string;
 
-  public userSignIn({ email, password, setLoading, setLogged }: SignInProps) {
-    signInWithEmailAndPassword(this.auth, email, password)
+  constructor({email, password}: InitProps) {
+    if (email !== undefined) {
+      this.email = email
+    }
+    if (password !== undefined) {
+      this.password = password
+    }
+  }
+
+  public userSignIn({ setLoading, setLogged }: SignInProps) {
+    signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then(async (response) => {
         const uid = response.user.uid;
         const querySnapshot = await getDocs(collection(this.db, "users"));
@@ -86,18 +97,16 @@ export class Auth {
 
   public newUserRegister({
     name,
-    email,
-    password,
     role,
     setLoading,
     navigate,
   }: UserRegisterProps) {
-    createUserWithEmailAndPassword(this.auth, email, password)
+    createUserWithEmailAndPassword(this.auth, this.email, this.password)
       .then(async (user) => {
         let userUid = user.user.uid;
-        await setDoc(doc(this.db, "users", email), {
+        await setDoc(doc(this.db, "users", this.email), {
           name: name,
-          email: email,
+          email: this.email,
           role: role,
           uid: userUid,
         });
@@ -128,8 +137,8 @@ export class Auth {
     }
   }
 
-  public forgotPassword({ email, setLoading }: ForgotPasswordProps) {
-    sendPasswordResetEmail(this.auth, email)
+  public forgotPassword({ setLoading }: ForgotPasswordProps) {
+    sendPasswordResetEmail(this.auth, this.email)
       .then(() => {
         toast.success("Email enviado com sucesso");
         setLoading(false);
