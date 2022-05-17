@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Container } from "./style"
 import { Auth } from "../../firebase/Auth"
 import { SprintScreen } from "../../components/SprintScreen" 
+import { Header } from "../../components/Header"
 
 export function Home() {
   const [ logged, setLogged ] = useState(true)
@@ -26,6 +27,7 @@ export function Home() {
         <SprintScreen />
       ) : (
         <>
+          <Header />
           <h1>Home page</h1>
           <button onClick={() => auth.userLogout({navigate})}>
             logout
