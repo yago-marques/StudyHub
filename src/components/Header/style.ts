@@ -19,6 +19,7 @@ export const Container = styled.header`
       width: 10rem;
       height: 5rem;
       background: var(--shape);
+      transition-duration: .3s;
       .img {
         color: white;
         font-size: 1.2rem;
@@ -35,9 +36,20 @@ export const Container = styled.header`
 
   div.menu {
     .drop-item {
-      text-align: center;
       width: 15rem;
       padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .img {
+        margin-right: 0.5rem;
+        color: red;
+      }
+      span {
+        color: red;
+        font-weight: 500;
+      }
     }
 
     button {
@@ -45,6 +57,7 @@ export const Container = styled.header`
       height: 5rem;
       margin-right: 3rem;
       background: var(--shape);
+      transition-duration: .3s;
       .bgUser {
         width:2.5rem;
         height: 2.5rem;

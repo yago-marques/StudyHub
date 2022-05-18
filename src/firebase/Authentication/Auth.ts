@@ -1,23 +1,17 @@
 // imports
-import { initializeApp } from "firebase/app";
 import {
-  getFirestore,
   collection,
   getDocs,
   setDoc,
   doc,
 } from "firebase/firestore";
-
 import {
-  getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
-
 import { toast } from "react-toastify";
-
-import { firebaseConfig } from "./credentials";
+import { App } from "../App";
 
 // interfaces
 interface SignInProps {
@@ -51,14 +45,12 @@ interface InitProps {
 }
 
 // class
-export class Auth {
-  private app = initializeApp(firebaseConfig);
-  private auth = getAuth(this.app);
-  private db = getFirestore(this.app);
+export class Auth extends App {
   private email!: string
   private password!: string;
 
   constructor({email, password}: InitProps) {
+    super()
     if (email !== undefined) {
       this.email = email
     }
@@ -68,10 +60,10 @@ export class Auth {
   }
 
   public userSignIn({ setLoading, setLogged }: SignInProps) {
-    signInWithEmailAndPassword(this.auth, this.email, this.password)
+    signInWithEmailAndPassword(this.getAuth(), this.email, this.password)
       .then(async (response) => {
         const uid = response.user.uid;
-        const querySnapshot = await getDocs(collection(this.db, "users"));
+        const querySnapshot = await getDocs(collection(this.getDb(), "users"));
         querySnapshot.forEach((doc) => {
           let data = doc.data();
           if (data.uid === uid) {
@@ -101,10 +93,10 @@ export class Auth {
     setLoading,
     navigate,
   }: UserRegisterProps) {
-    createUserWithEmailAndPassword(this.auth, this.email, this.password)
+    createUserWithEmailAndPassword(this.getAuth(), this.email, this.password)
       .then(async (user) => {
         let userUid = user.user.uid;
-        await setDoc(doc(this.db, "users", this.email), {
+        await setDoc(doc(this.getDb(), "users", userUid), {
           name: name,
           email: this.email,
           role: role,
@@ -126,7 +118,7 @@ export class Auth {
 
   public async verifyUserUid({ setLogged, setLoading }: VerifyUserUidProps) {
     if (localStorage.getItem("userRole") && localStorage.getItem("userUid")) {
-      const querySnapshot = await getDocs(collection(this.db, "users"));
+      const querySnapshot = await getDocs(collection(this.getDb(), "users"));
       querySnapshot.forEach((user) => {
         let data = user.data();
         data.uid === localStorage.getItem("userUid") && setLoading(false);
@@ -138,7 +130,7 @@ export class Auth {
   }
 
   public forgotPassword({ setLoading }: ForgotPasswordProps) {
-    sendPasswordResetEmail(this.auth, this.email)
+    sendPasswordResetEmail(this.getAuth(), this.email)
       .then(() => {
         toast.success("Email enviado com sucesso");
         setLoading(false);

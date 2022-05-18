@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Container } from "./style"
 import { useNavigate } from "react-router-dom"
-import { Auth } from "../../firebase/Auth"
+import { Auth } from "../../firebase/Authentication/Auth"
 import { SendEmailModal } from "../../components/SendEmailModal"
 import studentImg from "../../assets/studentLogin.png"
 

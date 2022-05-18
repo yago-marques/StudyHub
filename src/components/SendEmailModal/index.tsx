@@ -2,7 +2,7 @@ import { useState } from "react"
 import Modal from "react-modal"
 import { GrClose as CloseIcon } from "react-icons/gr"
 import { Container } from "./style"
-import { Auth } from "../../firebase/Auth"
+import { Auth } from "../../firebase/Authentication/Auth"
 
 interface SendEmailModalProps {
   showSendEmailModal: boolean
