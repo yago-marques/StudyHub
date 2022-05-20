@@ -2,7 +2,7 @@ import { Container } from "./style"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { toast } from "react-toastify"
-import { Auth } from "../../firebase/Auth"
+import { Auth } from "../../firebase/Authentication/Auth"
 
 export function UserRegister() {
   const [name, setName] = useState("")

@@ -1,23 +1,14 @@
 // imports
-import { initializeApp } from "firebase/app";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  setDoc,
-  doc,
-} from "firebase/firestore";
-
-import {
-  getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
 } from "firebase/auth";
-
 import { toast } from "react-toastify";
-
-import { firebaseConfig } from "./credentials";
+import { App } from "../App";
 
 // interfaces
 interface SignInProps {
@@ -30,7 +21,7 @@ interface LogoutProps {
 }
 
 interface VerifyUserUidProps {
-  setLogged: (state: boolean) => void;
+  navigate: (state: string) => void;
   setLoading: (state: boolean) => void;
 }
 
@@ -46,42 +37,44 @@ interface UserRegisterProps {
 }
 
 interface InitProps {
-  email?: string
-  password?: string
+  email?: string;
+  password?: string;
 }
 
 // class
-export class Auth {
-  private app = initializeApp(firebaseConfig);
-  private auth = getAuth(this.app);
-  private db = getFirestore(this.app);
-  private email!: string
+export class Auth extends App {
+  private email!: string;
   private password!: string;
 
-  constructor({email, password}: InitProps) {
+  constructor({ email, password }: InitProps) {
+    super();
     if (email !== undefined) {
-      this.email = email
+      this.email = email;
     }
     if (password !== undefined) {
-      this.password = password
+      this.password = password;
     }
   }
 
   public userSignIn({ setLoading, setLogged }: SignInProps) {
-    signInWithEmailAndPassword(this.auth, this.email, this.password)
+    signInWithEmailAndPassword(this.getAuth(), this.email, this.password)
       .then(async (response) => {
         const uid = response.user.uid;
-        const querySnapshot = await getDocs(collection(this.db, "users"));
-        querySnapshot.forEach((doc) => {
-          let data = doc.data();
-          if (data.uid === uid) {
+
+        let docRef = doc(this.getDb(), "users", uid);
+
+        getDoc(docRef)
+          .then((doc) => {
+            let data = doc.data()!;
             localStorage.setItem("userRole", data.role);
             localStorage.setItem("userUid", data.uid);
             toast.success("Usuário logado");
             setLogged(true);
-          }
-        });
-        setLoading(false);
+            setLoading(false);
+          })
+          .catch((err) => {
+            toast.error(err.message)
+          });
       })
       .catch((error) => {
         toast.error("Email ou senha inválida");
@@ -91,8 +84,14 @@ export class Auth {
   }
 
   public userLogout({ navigate }: LogoutProps) {
-    localStorage.clear();
-    navigate("/login");
+    signOut(this.getAuth()).then(() => {
+      toast.success("Usuário desconectado")
+      navigate("/login");
+    }).catch((error) => {
+      console.log(error);
+      toast.error("Erro");
+    })
+    
   }
 
   public newUserRegister({
@@ -101,10 +100,10 @@ export class Auth {
     setLoading,
     navigate,
   }: UserRegisterProps) {
-    createUserWithEmailAndPassword(this.auth, this.email, this.password)
+    createUserWithEmailAndPassword(this.getAuth(), this.email, this.password)
       .then(async (user) => {
         let userUid = user.user.uid;
-        await setDoc(doc(this.db, "users", this.email), {
+        await setDoc(doc(this.getDb(), "users", userUid), {
           name: name,
           email: this.email,
           role: role,
@@ -124,21 +123,20 @@ export class Auth {
       });
   }
 
-  public async verifyUserUid({ setLogged, setLoading }: VerifyUserUidProps) {
-    if (localStorage.getItem("userRole") && localStorage.getItem("userUid")) {
-      const querySnapshot = await getDocs(collection(this.db, "users"));
-      querySnapshot.forEach((user) => {
-        let data = user.data();
-        data.uid === localStorage.getItem("userUid") && setLoading(false);
-      });
-    } else {
-      setLogged(false);
-      setLoading(false);
-    }
+  public async verifyUserUid({ navigate, setLoading }: VerifyUserUidProps) {
+    onAuthStateChanged(this.getAuth(), user => {
+      if (user?.uid) {
+        setLoading(false)
+      } else {
+        toast.error("Usuário desconectado")
+        setLoading(false)
+        navigate("/login")
+      }
+    })
   }
 
   public forgotPassword({ setLoading }: ForgotPasswordProps) {
-    sendPasswordResetEmail(this.auth, this.email)
+    sendPasswordResetEmail(this.getAuth(), this.email)
       .then(() => {
         toast.success("Email enviado com sucesso");
         setLoading(false);
