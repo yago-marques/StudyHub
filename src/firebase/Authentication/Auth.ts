@@ -128,7 +128,6 @@ export class Auth extends App {
       if (user?.uid) {
         setLoading(false)
       } else {
-        toast.error("Usuário desconectado")
         setLoading(false)
         navigate("/login")
       }
