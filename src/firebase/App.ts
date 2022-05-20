@@ -47,8 +47,6 @@ export class App {
         } else {
           toast.error("usuário não encontrado")
         }
-      } else {
-        toast.error("Usuário não autenticado")
       }
     })
   }
