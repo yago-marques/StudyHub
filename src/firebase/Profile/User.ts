@@ -34,14 +34,16 @@ export class User extends App {
     return this.email
   }
 
-  public async setEmail(email: string) {
+  public async setEmail(email: string, setLoading: (loading: boolean) => void) {
     updateEmail(this.getAuth().currentUser, email)
       .then(() => {
         this.email = email
         this.updateUserInfo({email: this.email, name: this.name, role: this.role})
+        setLoading(false)
       })
       .catch(err => {
         console.log(err)
+        setLoading(false)
       })
     
   }
@@ -50,13 +52,18 @@ export class User extends App {
     return this.name
   }
 
-  public async setName(name: string) {
+  public async setName(name: string, setLoading: (loading: boolean) => void) {
     this.name = name
     this.updateUserInfo({email: this.email, name: this.name, role: this.role})
+    setLoading(false)
   }
 
   public getRole(): string {
     return this.role
+  }
+
+  public getUid4(): string {
+    return this.uid.substring(0,4)
   }
 
   private async updateUserInfo({ email, name, role }: UpdateUserInfoProps) {

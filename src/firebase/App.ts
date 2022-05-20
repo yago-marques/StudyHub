@@ -44,11 +44,9 @@ export class App {
         if (docSnap.exists()) {
           let data = docSnap.data()
           action(data)
-
         } else {
           toast.error("usuário não encontrado")
         }
-
       } else {
         toast.error("Usuário não autenticado")
       }

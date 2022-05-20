@@ -7,18 +7,33 @@ import { App } from "../../firebase/App"
 import { useNavigate } from "react-router-dom";
 import { Container } from "./style";
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
+import { useEffect, useState } from "react";
 
 export function Header() {
+  const [username, setUsername] = useState("")
   const navigate = useNavigate();
   const auth = new Auth({})
+
+  useEffect(() => {
+    App.withUser(data => {
+      let user = new User(data)
+      setUsername(user.getName().substring(0,2).toUpperCase())
+    })
+  }, [])
+
+  function handleUserInfo() {
+    navigate("/perfil")
+  }
 
   return (
     <Container>
       <h1>StudyHub</h1>
-      <nav>
-        <button onClick={() => {}}>
+      <nav className="toLeft">
+        <button onClick={() => {
+          navigate("/home")
+        }}>
           <ForumImg className="img" />
-          <p>Forúm</p>
+          <p>Fórum</p>
         </button>
 
         <button onClick={() => {}}>
@@ -33,19 +48,14 @@ export function Header() {
             <MenuButton>
               <div className="bgUser">
                 <span>
-                  YA
+                  {username === "" ? <div className="loader"></div> : username}
                 </span>
               </div>
             </MenuButton>
           }
         >
           <MenuItem 
-            onClick={() => {
-              App.withUser(data => {
-                let student = new User(data)
-                student.setEmail("yagovictormarques@gmail.com")
-              })
-            }}
+            onClick={handleUserInfo}
             className="drop-item"
           >
             Minhas informações

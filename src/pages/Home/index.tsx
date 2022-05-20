@@ -6,7 +6,6 @@ import { SprintScreen } from "../../components/SprintScreen"
 import { Header } from "../../components/Header"
 
 export function Home() {
-  const [ logged, setLogged ] = useState(true)
   const [ loading, setLoading ] = useState(true)
   const navigate = useNavigate()
   
@@ -14,12 +13,8 @@ export function Home() {
   const auth = new Auth({})
 
   useEffect(() => {
-    auth.verifyUserUid({setLogged, setLoading})
-  }, [auth])
-
-  useEffect(() => {
-    logged || navigate("/login")
-  }, [logged, navigate])
+    auth.verifyUserUid({navigate, setLoading})
+  }, [auth, navigate])
 
   return(
     <Container>
@@ -30,7 +25,6 @@ export function Home() {
           <Header />
         </>
       ) }
-      
     </Container>
   )
 }

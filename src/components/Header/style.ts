@@ -12,6 +12,9 @@ export const Container = styled.header`
   h1 {
     margin-left: 3rem;
   }
+  .toLeft {
+    margin-right: 5rem;
+  }
 
   nav {
     
