@@ -108,6 +108,7 @@ export class Auth extends App {
           email: this.email,
           role: role,
           uid: userUid,
+          created_at: new Date(),
         });
         setLoading(false);
         toast.success("Conta cadastrada");
@@ -121,6 +122,15 @@ export class Auth extends App {
         }
         setLoading(false);
       });
+  }
+
+  public getUserUid(then: (uid: string) => void) {
+    onAuthStateChanged(this.getAuth(), user => {
+      if (user?.uid !== undefined) {
+        let uid = user.uid
+        then(uid)
+      }
+    })
   }
 
   public async verifyUserUid({ navigate, setLoading }: VerifyUserUidProps) {
