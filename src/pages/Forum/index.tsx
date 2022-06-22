@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { AiOutlineSearch as SearchIcon } from "react-icons/ai"
+import { useNavigate } from "react-router-dom"
 import { Auth } from "../../firebase/Authentication/Auth"
 import { Post } from "../../firebase/Post/Post"
 import { Container } from "./style"
@@ -16,6 +17,8 @@ interface PostsProps {
 }
 
 export function Forum() {
+const navigate = useNavigate()
+
   const [posts, setPosts] = useState<PostsProps[]>()
   const [contentLoading, setContentLoading] = useState(true)
 
@@ -71,7 +74,9 @@ export function Forum() {
                       {post.rating}
                     </div>
 
-                    <button>
+                    <button
+                      onClick={() => { navigate(`/post/${post.uid}`) }}
+                    >
                       <div className="content">
 
                         <div className="header">

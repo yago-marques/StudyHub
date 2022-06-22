@@ -3,6 +3,7 @@ import { Home } from '../pages/Home';
 import { SignIn } from "../pages/SignIn"
 import { UserRegister } from '../pages/UserRegister';
 import { Profile } from '../pages/Profile';
+import { PostPage } from '../components/PostPage';
 
 export function AppRoutes() {
   return(
@@ -11,6 +12,7 @@ export function AppRoutes() {
       <Route path="/login" element={<SignIn />} />
       <Route path="/cadastro" element={<UserRegister />} />
       <Route path="/perfil" element={<Profile />} />
+      <Route path="/post/:post_uid" element={<PostPage />} />
 
       <Route path="/*" element={<Navigate to="/home" />} />
     </Routes>

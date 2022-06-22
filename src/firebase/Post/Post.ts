@@ -184,4 +184,71 @@ export class Post extends App {
 
     return dataToSend
   }
+
+  public async getPostDetail(postUid: string) {
+    const postDoc = doc(this.getDb(), "posts", postUid)
+    const tagQuery = query(collection(this.getDb(), "tags"), where("post_uid", "==", postUid))
+    const postRatingQuery = query(collection(this.getDb(), "post_ratings"), where("post_uid", "==", postUid))
+    const postCommentQuery = query(collection(this.getDb(), "post_comments"), where("post_uid", "==", postUid))
+    const answerQuery = query(collection(this.getDb(), "answers"), where("post_uid", "==", postUid))
+    const answerRatingQuery = query(collection(this.getDb(), "answer_ratings"), where("post_uid", "==", postUid))
+    const answerCommentQuery = query(collection(this.getDb(), "answer_comments"), where("post_uid", "==", postUid))
+
+    const postData = (await getDoc(postDoc)).data()
+
+    const tags = await getDocs(tagQuery)
+    const tagsData: any[] = []
+
+    tags.forEach(tag => {
+      tagsData.push(tag.data())
+    })
+
+    const postRatings = await getDocs(postRatingQuery)
+    const postRatingsData: any[] = []
+
+    postRatings.forEach(rating => {
+      postRatingsData.push(rating.data())
+    })
+
+    const postComments = await getDocs(postCommentQuery)
+    const postCommentData: any[] = []
+
+    postComments.forEach(comment => {
+      postCommentData.push(comment.data())
+    })
+
+    const postAnswers = await getDocs(answerQuery)
+    const postAnswerData: any[] = []
+
+    postAnswers.forEach(answer => {
+      postAnswerData.push(answer.data())
+    })
+
+    const postAnswerRatings = await getDocs(answerRatingQuery)
+    const postAnswerRatingsData: any[] = []
+
+    postAnswerRatings.forEach(rating => {
+      postAnswerRatingsData.push(rating.data())
+    })
+
+    const postAnswerComments = await getDocs(answerCommentQuery)
+    const postAnswerCommentsData: any[] = []
+
+    postAnswerComments.forEach(comment => {
+      postAnswerCommentsData.push(comment.data())
+    })
+
+    const rawData = {
+      postData: postData,
+      tagsData: tagsData,
+      postRatingsData: postRatingsData,
+      postCommentData: postCommentData,
+      postAnswerData: postAnswerData,
+      postAnswerRatingsData: postAnswerRatingsData,
+      postAnswerCommentsData: postAnswerCommentsData
+    }
+
+    console.log(rawData)
+
+  }
 }
