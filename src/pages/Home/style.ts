@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Container = styled.section`
-  h1{
-    color: var(--text-title);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `

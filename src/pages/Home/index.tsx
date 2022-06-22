@@ -4,6 +4,7 @@ import { Container } from "./style"
 import { Auth } from "../../firebase/Authentication/Auth"
 import { SprintScreen } from "../../components/SprintScreen" 
 import { Header } from "../../components/Header"
+import { Forum } from "../Forum"
 
 export function Home() {
   const [ loading, setLoading ] = useState(true)
@@ -23,6 +24,7 @@ export function Home() {
       ) : (
         <>
           <Header />
+          <Forum />
         </>
       ) }
     </Container>

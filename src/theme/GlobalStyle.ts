@@ -73,6 +73,17 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 50%;
     animation: rotateLoaderLogin 0.5s linear infinite;
   }
+
+  .loaderY {
+    height: 1rem;
+    margin-top: 2rem;
+    width: 1rem;
+    border: 2px solid transparent;
+    border-bottom-color: var(--yellow);
+    border-radius: 50%;
+    animation: rotateLoaderLogin 0.5s linear infinite;
+  }
+
   @keyframes rotateLoaderLogin {
     from {
       transform: rotate(0deg);
