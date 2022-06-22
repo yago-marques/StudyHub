@@ -9,7 +9,7 @@ export function PostPage() {
   useEffect(() => {
     const postService = new Post()
     postService.getPostDetail(postUid !== undefined ? postUid : "")
-  }, [])
+  }, [postUid])
 
   return (
     <h1>{postUid}</h1>
