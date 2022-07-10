@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { 
-  BsArrowUpCircle as ArrowUp,
-  BsArrowDownCircle as ArrowDown,
-} from "react-icons/bs"
 import { Post } from "../../firebase/Post/Post";
 import { Auth } from "../../firebase/Authentication/Auth";
 import { Container } from "./style"
 import { SprintScreen } from "../../components/SprintScreen" 
+import { RatingStaper } from "../RatingStaper";
 import { AnswerModal } from "../PostAnswerModal";
 import { Header } from "../Header";
 
@@ -80,10 +77,17 @@ interface DataProps {
   postAnswerRatingsData: AnswerRatingProps[];
 }
 
+interface RatingProps {
+  status: string;
+  uid: string;
+}
+
 export function PostPage() {
   const [postInfo, setPostInfo] = useState<DataProps>()
   const [userUid, setUserUid] = useState("")
+  const [rating, setRating] = useState<RatingProps>()
   const [showAnswerModal, setShowAnswerModal] = useState(false)
+  const [update, setUpdate] = useState(false)
 
   const params = useParams();
   const postUid = params.post_uid;
@@ -98,14 +102,20 @@ export function PostPage() {
 
   useEffect(() => {
     const postService = new Post();
+    postService.getRatingStatus(postUid!, userUid, (status, uid) => {
+      setRating({status, uid})
+    })
+  }, [postUid, userUid, update])
+
+  useEffect(() => {
+    const postService = new Post();
     postService.getPostDetail(
       postUid !== undefined ? postUid : "",
       (data: any) => {
-        console.log(data)
         setPostInfo(data);
       }
     );
-  }, [postUid]);
+  }, [postUid, update]);
 
   function closeAnswerModal() {
     setShowAnswerModal(false)
@@ -119,16 +129,20 @@ export function PostPage() {
       showAnswerModal={showAnswerModal} 
       userUid={userUid}
       postUid={postUid!}
+      setUpdate={setUpdate}
     />
     <Container>
       {postInfo === undefined ? <SprintScreen /> : (
         <>
         <section className="post-area">
-          <div className="action-rating">
-            <ArrowUp className="icon" />
-            <p>{postInfo?.postRatingSum}</p>
-            <ArrowDown className="icon" />
-          </div>
+          <RatingStaper 
+            ratingSum={postInfo?.postRatingSum} 
+            rating={rating!}
+            state={update}
+            update={setUpdate}
+            postUid={postUid!}
+            ownerUid={userUid}
+          />
           <div className="post-data">
             <div className="post-header">
               <p>Criado por: {postInfo?.ownerName}, em: {postInfo?.postData.created_at}</p>

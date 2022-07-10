@@ -10,10 +10,11 @@ interface AnswerModalProps {
   postUid: string
   showAnswerModal: boolean
   onRequestClose: () => void
+  setUpdate: (state: boolean) => void
 }
 
 export function AnswerModal({
-  showAnswerModal, onRequestClose, userUid, postUid
+  showAnswerModal, onRequestClose, userUid, postUid, setUpdate
 }: AnswerModalProps) {
 
   const [title, setTitle] = useState("")
@@ -33,6 +34,7 @@ export function AnswerModal({
         description: answer,
         setLoading: setLoading
       })
+      setUpdate(!loading)
       onRequestClose()
     }
   }

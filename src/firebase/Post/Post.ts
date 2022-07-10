@@ -8,6 +8,7 @@ import {
   query,
   where,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 
@@ -29,6 +30,7 @@ interface CreatePostRatingProps {
   postUid: string;
   ownerUid: string;
   value: number;
+  update: (state: boolean) => void;
 }
 
 interface PostProps {
@@ -103,6 +105,7 @@ export class Post extends App {
           postUid: uid,
           ownerUid: ownerUid,
           value: 0,
+          update: () => {}
         });
 
         setLoading(false);
@@ -147,11 +150,13 @@ export class Post extends App {
     });
   }
 
-  private async createPostRating({
+  public async createPostRating({
     postUid,
     ownerUid,
     value,
+    update,
   }: CreatePostRatingProps) {
+    update(true)
     const uid = v4();
     const newDoc = doc(this.getDb(), "post_ratings", uid);
     await setDoc(newDoc, {
@@ -159,8 +164,11 @@ export class Post extends App {
       post_uid: postUid,
       owner_uid: ownerUid,
       value: value,
+    }).then(() => {
+      update(false)
     }).catch((err) => {
       console.log(err);
+      update(false)
     });
   }
 
@@ -338,5 +346,41 @@ export class Post extends App {
     };
 
     action(rawData)
+  }
+
+  public async getRatingStatus(postUid: string, userUid: string, then: (status: string, uid: string) => void){
+    const ratingQuery = query(
+      collection(this.getDb(), "post_ratings"),
+      where("post_uid", "==", postUid),
+      where("owner_uid", "==", userUid)
+    );
+
+    const userRatingsSnap = await getDocs(ratingQuery);
+    let userRatings: any[] = []
+
+    userRatingsSnap.forEach((rating) => {
+      userRatings.push(rating.data())
+    })
+
+    if (userRatings.length === 0) {
+      then("no-rating", "")
+    } else if (userRatings[0].value === 0) {
+      then("zero-rating", userRatings[0].uid)
+    } else if (userRatings[0].value === 1) {
+      then("plus-rating", userRatings[0].uid)
+    } else {
+      then("less-rating", userRatings[0].uid)
+    }
+
+  }
+
+  public async updateUserRating(uid: string, value: number, update: (state: boolean) => void) {
+    update(true)
+    const docRef = doc(this.getDb(), "post_ratings", uid)
+    await updateDoc(docRef, {
+      value: value
+    }).then(() => {
+      update(false)
+    })
   }
 }

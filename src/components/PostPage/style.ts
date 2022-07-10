@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
+  margin-bottom: 10rem;
   .askQuestionBtn {
     margin-left: 2.5vw;
     margin-top: 2rem;
@@ -21,6 +22,15 @@ export const Container = styled.section`
       filter: brightness(0.8);
     }
   }
+
+  .no-answer {
+    margin-left: 2.5vw;
+    color: white;
+    margin-top: 2rem;
+    font-style: italic;
+    opacity: 0.6;
+  }
+
   section.post-area {
     background: white;
     display: flex;
@@ -39,6 +49,12 @@ export const Container = styled.section`
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
         font-size: 1.3rem;
+        cursor: pointer;
+        transition-duration: 0.3s;
+
+        &:hover {
+          color: var(--yellow);
+        }
       }
     }
 
