@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-  margin-bottom: 10rem;
   .askQuestionBtn {
     margin-left: 2.5vw;
     margin-top: 2rem;
