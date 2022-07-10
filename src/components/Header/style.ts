@@ -8,6 +8,7 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 2;
   
   h1 {
     margin-left: 3rem;
