@@ -56,7 +56,7 @@ const navigate = useNavigate()
             <section className="posts">
               <h2 className="posts-title">Perguntas</h2>
 
-              {posts !== undefined && posts.length > 0 && (
+              {posts !== undefined && posts.length > 0 ? (
                 <>
                 {posts.map(post => {
                   const filter = post.title.toLowerCase().includes(search.toLowerCase())
@@ -110,7 +110,7 @@ const navigate = useNavigate()
                   })}
                 </>
                           
-              )}
+              ) : <div className="no-post">Faça a primeira pergunta</div>}
 
             </section>
         </>

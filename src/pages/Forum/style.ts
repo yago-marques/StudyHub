@@ -23,6 +23,13 @@ export const Container = styled.section`
     }
   }
 
+  .no-post {
+    color: white;
+    margin-top: 2rem;
+    font-style: italic;
+    opacity: 0.6;
+  }
+
   .askQuestionBtn {
     margin-top: 2rem;
     display: flex;
