@@ -64,7 +64,7 @@ export function UserRegister() {
             <span>Username</span>
             <input 
               type="text" 
-              maxLength={50}
+              maxLength={20}
               onChange={event => {
                 setName(event.target.value)
               }}

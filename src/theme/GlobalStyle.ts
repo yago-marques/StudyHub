@@ -63,6 +63,19 @@ export const GlobalStyle = createGlobalStyle`
     position: relative;
     border-radius: 0.25rem;
     overflow: auto;
+    z-index: 3;
+  }
+
+  .react-modal-content-max{
+    width: 100%;
+    max-width: 90vw;
+    height: 85vh;
+    background: var(--shape);
+    padding: 3rem;
+    position: absolute;
+    border-radius: 0.25rem;
+    overflow-y: auto;
+    bottom: 0;
   }
 
   .loader {
