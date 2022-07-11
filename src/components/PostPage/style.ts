@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
+padding-bottom: 10rem;
   .askQuestionBtn {
     margin-left: 2.5vw;
     margin-top: 2rem;
@@ -42,6 +43,7 @@ export const Container = styled.section`
     margin-top: 3rem;
     padding: 1.5rem;
     border-radius: 0.5rem;
+    
 
     .action-rating {
       margin-right: 3rem;
