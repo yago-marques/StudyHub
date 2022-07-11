@@ -36,7 +36,9 @@ export function Header() {
           <p>Fórum</p>
         </button>
 
-        <button onClick={() => {}}>
+        <button onClick={() => {
+          navigate("/checklist")
+        }}>
           <ChecklistImg className="img" />
           <p>Checklist</p>
         </button>
