@@ -90,6 +90,17 @@ export const Container = styled.section`
         color: lightgray;
         font-size: 0.9rem;
       }
+
+      .post-log {
+        color: var(--bg-color);
+        a {
+          text-decoration: none;
+          color: #705714;
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
+          text-decoration: underline;
+        }
+      }
     }
   }
 `

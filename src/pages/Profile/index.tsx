@@ -4,12 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { FiEdit as EditIcon } from "react-icons/fi";
 import { Auth } from "../../firebase/Authentication/Auth";
 import { User } from "../../firebase/Profile/User";
+import { Post } from "../../firebase/Post/Post";
 import { EditProfileModal } from "../../components/EditProfileModal";
 import { SprintScreen } from "../../components/SprintScreen";
 import { Container } from "./style";
 import { Header } from "../../components/Header";
 
+interface PostProps {
+  created_at: string;
+  title: string;
+  uid: string;
+}
+
 export function Profile() {
+  const [posts, setPosts] = useState<PostProps[]>()
+  const [userUid, setUserUid] = useState("")
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +42,17 @@ export function Profile() {
       setUid4(user.getUid4());
     });
   }, [auth, navigate]);
+
+  useEffect(() => {
+    auth.getUserUid(uid => setUserUid(uid))
+  }, [])
+
+  useEffect(() => {
+    const postService = new Post()
+    postService.getUserPosts(userUid, posts => {
+      setPosts(posts)
+    })
+  }, [userUid])
 
   return (
     <Container>
@@ -96,9 +116,26 @@ export function Profile() {
                 Posts
               </h2>
               <div className="shape">
-                <p>
-                  Nenhum post criado
-                </p>
+                {posts?.length === 0 ? (
+                  <p>
+                    Nenhum post criado
+                  </p>
+                ): ( posts?.map( post => {
+                  return (
+                    <p className="post-log" key={post.uid}>
+                      post: 
+                      <a 
+                        href={`https://studyhub-d.netlify.app/post/${post.uid}`}
+                        target="_Blank" 
+                        rel="noreferrer"
+                      >{post.title}</a>
+                      criado em: {post.created_at}
+                    </p>
+                  )
+                })
+                  
+                )}
+                
               </div>
             </section>
           </section>

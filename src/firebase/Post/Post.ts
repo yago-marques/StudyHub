@@ -348,6 +348,16 @@ export class Post extends App {
     action(rawData)
   }
 
+  public async getUserPosts(userUid: string, then: (state: any) => void) {
+    const postsQuery = query(collection(this.getDb(), "posts"), where("owner_uid", "==", userUid))
+    const rawPosts = await getDocs(postsQuery)
+    const posts: any[] = []
+    rawPosts.forEach(post => {
+      posts.push(post.data())
+    })
+    then(posts)
+  }
+
   public async getRatingStatus(postUid: string, userUid: string, then: (status: string, uid: string) => void){
     const ratingQuery = query(
       collection(this.getDb(), "post_ratings"),
