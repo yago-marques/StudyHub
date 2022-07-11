@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { BsCheckSquareFill as Check } from "react-icons/bs"
+import { BsFillTrashFill as Check } from "react-icons/bs"
 import { toast } from "react-toastify"
 import { Header } from "../../components/Header"
 import { SprintScreen } from "../../components/SprintScreen"
@@ -85,6 +85,7 @@ export function Checklist() {
                 </div>
                 <button onClick={() => taskAsDone(task.uid)}>
                   <Check className="icon" />
+                  Marcar como feita
                 </button>
               </div>
             )}))}

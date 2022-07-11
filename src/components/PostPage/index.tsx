@@ -161,7 +161,9 @@ export function PostPage() {
         {postInfo?.postAnswerData.length === 0 ? (
           <div className="no-answer">Post sem resposta</div>
         ) : (
-          postInfo?.postAnswerData.map(answer => (
+          <>
+          <h2 className="answers" >Respostas</h2>
+          {postInfo?.postAnswerData.map(answer => (
             <section key={answer.uid} className="post-area">
               <div className="post-data">
                 <div className="post-header">
@@ -172,7 +174,8 @@ export function PostPage() {
                 <h2>{answer.description}</h2>
               </div>
             </section>
-          ))
+          ))}
+          </>
         )}
         </>
       )}

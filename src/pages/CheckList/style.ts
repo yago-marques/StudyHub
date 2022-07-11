@@ -70,16 +70,22 @@ export const Container = styled.section`
       }
 
       button {
+        display: flex;
         background-color: transparent;
-        height: 2rem;
-        width: 2rem;
+        align-items: center;
+        color: white;
+ 
         .icon {
+          margin-right: 1rem;
           color: var(--yellow);
           font-size: 2rem;
           transition-duration: .4s;
-          &:hover {
-            color: green;
-          }
+          
+        }
+        &:hover {
+          .icon {
+            color: red;
+          }  
         }
       }
     }

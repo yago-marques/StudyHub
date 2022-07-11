@@ -68,7 +68,7 @@ export const GlobalStyle = createGlobalStyle`
 
   .react-modal-content-max{
     width: 100%;
-    max-width: 90vw;
+    max-width: 70rem;
     height: 85vh;
     background: var(--shape);
     padding: 3rem;

@@ -81,7 +81,7 @@ export function NewPostModal({
               )}</span>
               <input 
                 type="text" 
-                placeholder="Digite uma tag"
+                placeholder="Digite uma tag e clique em adicionar"
                 value={newTag}
                 onChange={event => {
                   setNewTag(event.target.value)
@@ -103,7 +103,7 @@ export function NewPostModal({
             <div>
               <span>Descrição</span>
               <textarea 
-                cols={120}
+                cols={50}
                 rows={10}
                 placeholder="Digite sua pergunta"
                 onChange={e => setDescription(e.target.value)}

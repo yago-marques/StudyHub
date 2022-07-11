@@ -62,7 +62,7 @@ export function AnswerModal({
           <p>Descrição</p>
           <textarea 
             onChange={(e: any) => setAnswer(e.target.value)} 
-            cols={80} 
+            cols={30} 
             rows={10}
             placeholder="Digite sua resposta"
           >

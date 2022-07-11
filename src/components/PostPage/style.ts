@@ -21,6 +21,10 @@ export const Container = styled.section`
       filter: brightness(0.8);
     }
   }
+  h2.answers {
+    margin-left: 2.5vw;
+    margin-top: 2rem;
+  }
 
   .no-answer {
     margin-left: 2.5vw;
